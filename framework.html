@@ -47,7 +47,7 @@
                             </datalist>
 		      			<span class="input-group-btn">
 
-		        			<button class="btn btn-default" type="button" id ="Go!">Go!</button>
+		        			<button class="btn btn-default" type="button" id ="Go">Go!</button>
 		      			</span>
 		    		</div><!-- /input-group -->
 		  		</div><!-- /.col-lg-6 -->
@@ -69,7 +69,7 @@
 	<script>
 
     
-	alert("HELLO I KNOW THIS IS AN ANNOYING FEATURE BUT I LEFT IT ANYWAYS");
+	
 
 
         $("#input").keypress(function(event){
@@ -77,9 +77,11 @@
                      window.location.replace("ASU.html");
              }
          });
-        $("#Go!").click(function(){
+        
+        $("#Go").click(function (event) {
             if ($("#input").val() == "Arizona State University"){
-                    window.location.replace("ASU.html");
+                
+                window.location.replace("ASU.html");
             }
         });
 
