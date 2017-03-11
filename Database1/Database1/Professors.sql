@@ -1,4 +1,4 @@
-﻿CREATE TABLE [dbo].[Table1]
+﻿CREATE TABLE [dbo].[Professors]
 (
 	[Id] INT NOT NULL PRIMARY KEY, 
     [Name] NTEXT NULL, 

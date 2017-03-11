@@ -4,5 +4,5 @@
     [CourseName] NTEXT NULL, 
     [UniversityID] INT NULL, 
     [CourseNum] NTEXT NULL, 
-    CONSTRAINT [FK_Courses_ToTable] FOREIGN KEY ([Column]) REFERENCES [ToTable]([ToTableColumn]) 
+    CONSTRAINT [FK_Courses_Universities] FOREIGN KEY ([UniversityID]) REFERENCES [Universities]([Id]) 
 )
