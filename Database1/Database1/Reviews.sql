@@ -2,7 +2,7 @@
 (
 	[Id] INT NOT NULL PRIMARY KEY, 
     [ProfessorID] INT NULL, 
-    [Content] NTEXT NULL, 
+    [Content] VARCHAR(50) NULL, 
     [TextbookUse] INT NULL, 
     [Rating] FLOAT NULL, 
     [CourseID] INT NULL, 

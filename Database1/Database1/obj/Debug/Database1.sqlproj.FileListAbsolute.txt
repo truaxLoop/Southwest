@@ -10,9 +10,9 @@ c:\users\micah\documents\visual studio 2015\Projects\Database1\Database1\obj\Deb
 C:\Users\Micah\Documents\CSE 230\Southwest\Database1\Database1\bin\Debug\Database1.dacpac
 C:\Users\Micah\Documents\CSE 230\Southwest\Database1\Database1\bin\Debug\Database1.dll
 C:\Users\Micah\Documents\CSE 230\Southwest\Database1\Database1\bin\Debug\Database1.pdb
+C:\Users\Micah\Documents\CSE 230\Southwest\Database1\Database1\obj\Debug\Database1.dll
+C:\Users\Micah\Documents\CSE 230\Southwest\Database1\Database1\obj\Debug\Database1.pdb
 C:\Users\Micah\Documents\CSE 230\Southwest\Database1\Database1\obj\Debug\Model.xml
 C:\Users\Micah\Documents\CSE 230\Southwest\Database1\Database1\obj\Debug\refactor.xml
 C:\Users\Micah\Documents\CSE 230\Southwest\Database1\Database1\obj\Debug\postdeploy.sql
 C:\Users\Micah\Documents\CSE 230\Southwest\Database1\Database1\obj\Debug\predeploy.sql
-C:\Users\Micah\Documents\CSE 230\Southwest\Database1\Database1\obj\Debug\Database1.dll
-C:\Users\Micah\Documents\CSE 230\Southwest\Database1\Database1\obj\Debug\Database1.pdb

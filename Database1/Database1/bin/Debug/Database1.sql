@@ -36,45 +36,278 @@ IF N'$(__IsSqlCmdEnabled)' NOT LIKE N'True'
 
 
 GO
-IF EXISTS (SELECT 1
-           FROM   [master].[dbo].[sysdatabases]
-           WHERE  [name] = N'$(DatabaseName)')
-    BEGIN
-        ALTER DATABASE [$(DatabaseName)]
-            SET ARITHABORT ON,
-                CONCAT_NULL_YIELDS_NULL ON,
-                CURSOR_DEFAULT LOCAL 
-            WITH ROLLBACK IMMEDIATE;
-    END
+USE [$(DatabaseName)];
 
 
 GO
-IF EXISTS (SELECT 1
-           FROM   [master].[dbo].[sysdatabases]
-           WHERE  [name] = N'$(DatabaseName)')
-    BEGIN
-        ALTER DATABASE [$(DatabaseName)]
-            SET PAGE_VERIFY NONE,
-                DISABLE_BROKER 
-            WITH ROLLBACK IMMEDIATE;
-    END
+/*
+The type for column CourseName in table [dbo].[Courses] is currently  NTEXT NULL but is being changed to  VARCHAR (50) NULL. Data loss could occur.
+
+The type for column CourseNum in table [dbo].[Courses] is currently  NTEXT NULL but is being changed to  VARCHAR (50) NULL. Data loss could occur.
+*/
+
+IF EXISTS (select top 1 1 from [dbo].[Courses])
+    RAISERROR (N'Rows were detected. The schema update is terminating because data loss might occur.', 16, 127) WITH NOWAIT
+
+GO
+/*
+The type for column Name in table [dbo].[Professors] is currently  NTEXT NULL but is being changed to  VARCHAR (50) NULL. Data loss could occur.
+*/
+
+IF EXISTS (select top 1 1 from [dbo].[Professors])
+    RAISERROR (N'Rows were detected. The schema update is terminating because data loss might occur.', 16, 127) WITH NOWAIT
+
+GO
+/*
+The type for column Content in table [dbo].[Reviews] is currently  NTEXT NULL but is being changed to  VARCHAR (50) NULL. Data loss could occur.
+*/
+
+IF EXISTS (select top 1 1 from [dbo].[Reviews])
+    RAISERROR (N'Rows were detected. The schema update is terminating because data loss might occur.', 16, 127) WITH NOWAIT
+
+GO
+/*
+The type for column Name in table [dbo].[Universities] is currently  NTEXT NULL but is being changed to  VARCHAR (50) NULL. Data loss could occur.
+*/
+
+IF EXISTS (select top 1 1 from [dbo].[Universities])
+    RAISERROR (N'Rows were detected. The schema update is terminating because data loss might occur.', 16, 127) WITH NOWAIT
+
+GO
+PRINT N'Dropping unnamed constraint on [dbo].[Professors]...';
 
 
 GO
-ALTER DATABASE [$(DatabaseName)]
-    SET TARGET_RECOVERY_TIME = 0 SECONDS 
-    WITH ROLLBACK IMMEDIATE;
+ALTER TABLE [dbo].[Professors] DROP CONSTRAINT [DF__Professor__Unive__31EC6D26];
 
 
 GO
-IF EXISTS (SELECT 1
-           FROM   [master].[dbo].[sysdatabases]
-           WHERE  [name] = N'$(DatabaseName)')
+PRINT N'Dropping [dbo].[FK_Courses_Universities]...';
+
+
+GO
+ALTER TABLE [dbo].[Courses] DROP CONSTRAINT [FK_Courses_Universities];
+
+
+GO
+PRINT N'Dropping [dbo].[FK_Reviews_Courses]...';
+
+
+GO
+ALTER TABLE [dbo].[Reviews] DROP CONSTRAINT [FK_Reviews_Courses];
+
+
+GO
+PRINT N'Dropping [dbo].[FK_Reviews_Professors]...';
+
+
+GO
+ALTER TABLE [dbo].[Reviews] DROP CONSTRAINT [FK_Reviews_Professors];
+
+
+GO
+PRINT N'Starting rebuilding table [dbo].[Courses]...';
+
+
+GO
+BEGIN TRANSACTION;
+
+SET TRANSACTION ISOLATION LEVEL SERIALIZABLE;
+
+SET XACT_ABORT ON;
+
+CREATE TABLE [dbo].[tmp_ms_xx_Courses] (
+    [Id]           INT          NOT NULL,
+    [CourseName]   VARCHAR (50) NULL,
+    [UniversityID] INT          NULL,
+    [CourseNum]    VARCHAR (50) NULL,
+    PRIMARY KEY CLUSTERED ([Id] ASC)
+);
+
+IF EXISTS (SELECT TOP 1 1 
+           FROM   [dbo].[Courses])
     BEGIN
-        ALTER DATABASE [$(DatabaseName)]
-            SET QUERY_STORE (CLEANUP_POLICY = (STALE_QUERY_THRESHOLD_DAYS = 367)) 
-            WITH ROLLBACK IMMEDIATE;
+        INSERT INTO [dbo].[tmp_ms_xx_Courses] ([Id], [CourseName], [UniversityID], [CourseNum])
+        SELECT   [Id],
+                 CAST ([CourseName] AS VARCHAR (50)),
+                 [UniversityID],
+                 CAST ([CourseNum] AS VARCHAR (50))
+        FROM     [dbo].[Courses]
+        ORDER BY [Id] ASC;
     END
+
+DROP TABLE [dbo].[Courses];
+
+EXECUTE sp_rename N'[dbo].[tmp_ms_xx_Courses]', N'Courses';
+
+COMMIT TRANSACTION;
+
+SET TRANSACTION ISOLATION LEVEL READ COMMITTED;
+
+
+GO
+PRINT N'Starting rebuilding table [dbo].[Professors]...';
+
+
+GO
+BEGIN TRANSACTION;
+
+SET TRANSACTION ISOLATION LEVEL SERIALIZABLE;
+
+SET XACT_ABORT ON;
+
+CREATE TABLE [dbo].[tmp_ms_xx_Professors] (
+    [Id]           INT          NOT NULL,
+    [Name]         VARCHAR (50) NULL,
+    [UniversityID] INT          DEFAULT 0 NOT NULL,
+    PRIMARY KEY CLUSTERED ([Id] ASC)
+);
+
+IF EXISTS (SELECT TOP 1 1 
+           FROM   [dbo].[Professors])
+    BEGIN
+        INSERT INTO [dbo].[tmp_ms_xx_Professors] ([Id], [Name], [UniversityID])
+        SELECT   [Id],
+                 CAST ([Name] AS VARCHAR (50)),
+                 [UniversityID]
+        FROM     [dbo].[Professors]
+        ORDER BY [Id] ASC;
+    END
+
+DROP TABLE [dbo].[Professors];
+
+EXECUTE sp_rename N'[dbo].[tmp_ms_xx_Professors]', N'Professors';
+
+COMMIT TRANSACTION;
+
+SET TRANSACTION ISOLATION LEVEL READ COMMITTED;
+
+
+GO
+PRINT N'Starting rebuilding table [dbo].[Reviews]...';
+
+
+GO
+BEGIN TRANSACTION;
+
+SET TRANSACTION ISOLATION LEVEL SERIALIZABLE;
+
+SET XACT_ABORT ON;
+
+CREATE TABLE [dbo].[tmp_ms_xx_Reviews] (
+    [Id]          INT          NOT NULL,
+    [ProfessorID] INT          NULL,
+    [Content]     VARCHAR (50) NULL,
+    [TextbookUse] INT          NULL,
+    [Rating]      FLOAT (53)   NULL,
+    [CourseID]    INT          NULL,
+    PRIMARY KEY CLUSTERED ([Id] ASC)
+);
+
+IF EXISTS (SELECT TOP 1 1 
+           FROM   [dbo].[Reviews])
+    BEGIN
+        INSERT INTO [dbo].[tmp_ms_xx_Reviews] ([Id], [ProfessorID], [Content], [TextbookUse], [Rating], [CourseID])
+        SELECT   [Id],
+                 [ProfessorID],
+                 CAST ([Content] AS VARCHAR (50)),
+                 [TextbookUse],
+                 [Rating],
+                 [CourseID]
+        FROM     [dbo].[Reviews]
+        ORDER BY [Id] ASC;
+    END
+
+DROP TABLE [dbo].[Reviews];
+
+EXECUTE sp_rename N'[dbo].[tmp_ms_xx_Reviews]', N'Reviews';
+
+COMMIT TRANSACTION;
+
+SET TRANSACTION ISOLATION LEVEL READ COMMITTED;
+
+
+GO
+PRINT N'Starting rebuilding table [dbo].[Universities]...';
+
+
+GO
+BEGIN TRANSACTION;
+
+SET TRANSACTION ISOLATION LEVEL SERIALIZABLE;
+
+SET XACT_ABORT ON;
+
+CREATE TABLE [dbo].[tmp_ms_xx_Universities] (
+    [Id]   INT          NOT NULL,
+    [Name] VARCHAR (50) NULL,
+    PRIMARY KEY CLUSTERED ([Id] ASC)
+);
+
+IF EXISTS (SELECT TOP 1 1 
+           FROM   [dbo].[Universities])
+    BEGIN
+        INSERT INTO [dbo].[tmp_ms_xx_Universities] ([Id], [Name])
+        SELECT   [Id],
+                 CAST ([Name] AS VARCHAR (50))
+        FROM     [dbo].[Universities]
+        ORDER BY [Id] ASC;
+    END
+
+DROP TABLE [dbo].[Universities];
+
+EXECUTE sp_rename N'[dbo].[tmp_ms_xx_Universities]', N'Universities';
+
+COMMIT TRANSACTION;
+
+SET TRANSACTION ISOLATION LEVEL READ COMMITTED;
+
+
+GO
+PRINT N'Creating [dbo].[FK_Courses_Universities]...';
+
+
+GO
+ALTER TABLE [dbo].[Courses] WITH NOCHECK
+    ADD CONSTRAINT [FK_Courses_Universities] FOREIGN KEY ([UniversityID]) REFERENCES [dbo].[Universities] ([Id]);
+
+
+GO
+PRINT N'Creating [dbo].[FK_Reviews_Courses]...';
+
+
+GO
+ALTER TABLE [dbo].[Reviews] WITH NOCHECK
+    ADD CONSTRAINT [FK_Reviews_Courses] FOREIGN KEY ([CourseID]) REFERENCES [dbo].[Courses] ([Id]);
+
+
+GO
+PRINT N'Creating [dbo].[FK_Reviews_Professors]...';
+
+
+GO
+ALTER TABLE [dbo].[Reviews] WITH NOCHECK
+    ADD CONSTRAINT [FK_Reviews_Professors] FOREIGN KEY ([ProfessorID]) REFERENCES [dbo].[Professors] ([Id]);
+
+
+GO
+/*
+Post-Deployment Script Template							
+--------------------------------------------------------------------------------------
+ This file contains SQL statements that will be appended to the build script.		
+ Use SQLCMD syntax to include a file in the post-deployment script.			
+ Example:      :r .\myfile.sql								
+ Use SQLCMD syntax to reference a variable in the post-deployment script.		
+ Example:      :setvar TableName MyTable							
+               SELECT * FROM [$(TableName)]					
+--------------------------------------------------------------------------------------
+*/
+INSERT INTO Universities VALUES (4, 'PSU');
+SELECT * From Universities;
+GO
+
+GO
+PRINT N'Checking existing data against newly created constraints';
 
 
 GO
@@ -82,124 +315,12 @@ USE [$(DatabaseName)];
 
 
 GO
-PRINT N'Rename refactoring operation with key d4afc65b-a6b9-4a3f-8f82-6f214a97980d, 47fde0c5-7d8c-465f-8686-0bc7069815ad is skipped, element [dbo].[Reviews].[Course] (SqlSimpleColumn) will not be renamed to CourseID';
+ALTER TABLE [dbo].[Courses] WITH CHECK CHECK CONSTRAINT [FK_Courses_Universities];
 
+ALTER TABLE [dbo].[Reviews] WITH CHECK CHECK CONSTRAINT [FK_Reviews_Courses];
 
-GO
-PRINT N'Rename refactoring operation with key b338877b-6420-4a96-ba0b-d0692aed5a6f is skipped, element [dbo].[Courses].[University] (SqlSimpleColumn) will not be renamed to UniversityID';
+ALTER TABLE [dbo].[Reviews] WITH CHECK CHECK CONSTRAINT [FK_Reviews_Professors];
 
-
-GO
-PRINT N'Rename refactoring operation with key c66db98c-a184-41fd-a34b-a98c4b42828d is skipped, element [dbo].[Reviews].[Textbook use] (SqlSimpleColumn) will not be renamed to TextbookUse';
-
-
-GO
-PRINT N'Rename refactoring operation with key 72cfcebb-579d-4552-8624-3c843d6363cf is skipped, element [dbo].[Table1].[University id] (SqlSimpleColumn) will not be renamed to UniversityID';
-
-
-GO
-PRINT N'Rename refactoring operation with key 8ad22238-dbdf-417d-9f3f-ca6a9216895a is skipped, element [dbo].[Reviews].[Proffesor] (SqlSimpleColumn) will not be renamed to SectionID';
-
-
-GO
-PRINT N'Creating [dbo].[Courses]...';
-
-
-GO
-CREATE TABLE [dbo].[Courses] (
-    [Id]           INT   NOT NULL,
-    [CourseName]   NTEXT NULL,
-    [UniversityID] INT   NULL,
-    [CourseNum]    NTEXT NULL,
-    PRIMARY KEY CLUSTERED ([Id] ASC)
-);
-
-
-GO
-PRINT N'Creating [dbo].[Reviews]...';
-
-
-GO
-CREATE TABLE [dbo].[Reviews] (
-    [Id]          INT        NOT NULL,
-    [SectionID]   INT        NULL,
-    [Content]     NTEXT      NULL,
-    [TextbookUse] INT        NULL,
-    [Rating]      FLOAT (53) NULL,
-    PRIMARY KEY CLUSTERED ([Id] ASC)
-);
-
-
-GO
-PRINT N'Creating [dbo].[Sections]...';
-
-
-GO
-CREATE TABLE [dbo].[Sections] (
-    [Id]          INT NOT NULL,
-    [ProfessorID] INT NULL,
-    [CourseID]    INT NULL,
-    PRIMARY KEY CLUSTERED ([Id] ASC)
-);
-
-
-GO
-PRINT N'Creating [dbo].[Table1]...';
-
-
-GO
-CREATE TABLE [dbo].[Table1] (
-    [Id]           INT   NOT NULL,
-    [Name]         NTEXT NULL,
-    [UniversityID] INT   NOT NULL,
-    PRIMARY KEY CLUSTERED ([Id] ASC)
-);
-
-
-GO
-PRINT N'Creating [dbo].[University]...';
-
-
-GO
-CREATE TABLE [dbo].[University] (
-    [Id]   INT   NOT NULL,
-    [Name] NTEXT NULL,
-    PRIMARY KEY CLUSTERED ([Id] ASC)
-);
-
-
-GO
-PRINT N'Creating unnamed constraint on [dbo].[Table1]...';
-
-
-GO
-ALTER TABLE [dbo].[Table1]
-    ADD DEFAULT 0 FOR [UniversityID];
-
-
-GO
--- Refactoring step to update target server with deployed transaction logs
-
-IF OBJECT_ID(N'dbo.__RefactorLog') IS NULL
-BEGIN
-    CREATE TABLE [dbo].[__RefactorLog] (OperationKey UNIQUEIDENTIFIER NOT NULL PRIMARY KEY)
-    EXEC sp_addextendedproperty N'microsoft_database_tools_support', N'refactoring log', N'schema', N'dbo', N'table', N'__RefactorLog'
-END
-GO
-IF NOT EXISTS (SELECT OperationKey FROM [dbo].[__RefactorLog] WHERE OperationKey = 'd4afc65b-a6b9-4a3f-8f82-6f214a97980d')
-INSERT INTO [dbo].[__RefactorLog] (OperationKey) values ('d4afc65b-a6b9-4a3f-8f82-6f214a97980d')
-IF NOT EXISTS (SELECT OperationKey FROM [dbo].[__RefactorLog] WHERE OperationKey = 'b338877b-6420-4a96-ba0b-d0692aed5a6f')
-INSERT INTO [dbo].[__RefactorLog] (OperationKey) values ('b338877b-6420-4a96-ba0b-d0692aed5a6f')
-IF NOT EXISTS (SELECT OperationKey FROM [dbo].[__RefactorLog] WHERE OperationKey = '47fde0c5-7d8c-465f-8686-0bc7069815ad')
-INSERT INTO [dbo].[__RefactorLog] (OperationKey) values ('47fde0c5-7d8c-465f-8686-0bc7069815ad')
-IF NOT EXISTS (SELECT OperationKey FROM [dbo].[__RefactorLog] WHERE OperationKey = 'c66db98c-a184-41fd-a34b-a98c4b42828d')
-INSERT INTO [dbo].[__RefactorLog] (OperationKey) values ('c66db98c-a184-41fd-a34b-a98c4b42828d')
-IF NOT EXISTS (SELECT OperationKey FROM [dbo].[__RefactorLog] WHERE OperationKey = '72cfcebb-579d-4552-8624-3c843d6363cf')
-INSERT INTO [dbo].[__RefactorLog] (OperationKey) values ('72cfcebb-579d-4552-8624-3c843d6363cf')
-IF NOT EXISTS (SELECT OperationKey FROM [dbo].[__RefactorLog] WHERE OperationKey = '8ad22238-dbdf-417d-9f3f-ca6a9216895a')
-INSERT INTO [dbo].[__RefactorLog] (OperationKey) values ('8ad22238-dbdf-417d-9f3f-ca6a9216895a')
-
-GO
 
 GO
 PRINT N'Update complete.';

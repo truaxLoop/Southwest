@@ -1,7 +1,7 @@
 
 <!DOCTYPE html>
 <html lang = "en">
-	<head>
+    <head>
 <!-- <link rel="stylesheet" href="//code.jquery.com/ui/1.12.1/themes/base/jquery-ui.css">
   <link rel="stylesheet" href="/resources/demos/style.css">
   		<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.1.1/jquery.min.js"></script>
@@ -91,7 +91,8 @@
 		
 	</head>
 	<body style = "margin-bottom:5%">
-		<div class = "container-fluid" id = "topContainer" >
+		
+        <div class = "container-fluid" id = "topContainer" >
 		<div class = "row" style = "background-image:url('tweed.png');" id = "topHalf" >
 			<div class = "col-xs-offset-2 col-xs-8" style = "margin-top:5%;margin-bottom:4%">
 					<div class="panel panel-default">
@@ -162,15 +163,18 @@
 								<th>1</th>
 								<td>Micah Catguy</td>
 								<td>
+                                    
 									<span class="glyphicon glyphicon-star" aria-hidden="true"></span>
 									<span class="glyphicon glyphicon-star" aria-hidden="true"></span>
 									<span class="glyphicon glyphicon-star" aria-hidden="true"></span>	
-									<span class="glyphicon glyphicon-star" aria-hidden="true"></span>	
+                                    <span class="glyphicon glyphicon-star" aria-hidden="true"></span>
+                                    <span class="glyphicon glyphicon-star" aria-hidden="true"></span>
+                                    <span class="glyphicon glyphicon-star" aria-hidden="true"></span>
+                                    <span class="glyphicon glyphicon-star" aria-hidden="true"></span>
+                                    <span class="glyphicon glyphicon-star" aria-hidden="true"></span>
+                                    <span class="glyphicon glyphicon-star" aria-hidden="true"></span>
 									<span class="glyphicon glyphicon-star-empty" aria-hidden="true"></span>	
-									<span class="glyphicon glyphicon-star-empty" aria-hidden="true"></span>							
-									<span class="glyphicon glyphicon-star-empty" aria-hidden="true"></span>							
-									<span class="glyphicon glyphicon-star-empty" aria-hidden="true"></span>							
-									<span class="glyphicon glyphicon-star-empty" aria-hidden="true"></span>							
+															
 
 								</td>
 							</tr>
@@ -182,7 +186,7 @@
 							<tr class = "expand">
 								<th>3</th>
 								<td>Brandon Bayles</td>
-								<td></td>
+								<td id="Result1"></td>
 							</tr>
 						</table>
 						</div>
@@ -248,10 +252,25 @@
 		$("#hwScale").text("YES");
 		$("#avScale").text("YES");
 		$("#curve").text("YES");
-
 		
 		$("#minuteD").stop(true,true).fadeTo(500,1);
 	
+	}
+
+	function drawStars(string, num)
+	{
+	    for(i = 1; i <= 10; i = i + 1)
+	    {
+	        if(i <= num)
+	        {
+	           //$("#" + string).<span class="glyphicon glyphicon-star" aria-hidden="true"></span>
+                                            	
+	        }
+	        else
+	        (
+               $("#" + string).text($("#" + string).val()+"<span class=\"glyphicon glyphicon-star-empty\" aria-hidden=\"true\"></span>");
+            )
+	    }
 	}
 
 	function clear(){
@@ -264,12 +283,15 @@
 
 
 	}
+    
 
 	function doSearch(){
-
+	    clear();
 		input = $("#search").val();
 
-		//method to list possible versions in SQL using regex. Sample is below
+
+	    //method to list possible versions in SQL using regex. Sample is below
+        /*
 		var list = ["CSE240", "CSE210", "CSE105"];
 		$.each(list, function(key, value){
 				$("#searchResults").append("<tr><td><h5>"+value+"</h5></td></tr>")
@@ -282,7 +304,7 @@
 
 
 		$("#searchResults").css("display","inline");
-
+        */
 
 	}
     
@@ -304,7 +326,8 @@
 
 		$("#go").click(function(){
 		
-				doSearch();
+		    doSearch();
+		    drawStars("Result1",2);
 
 		});
 

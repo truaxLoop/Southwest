@@ -1,8 +1,8 @@
 ﻿CREATE TABLE [dbo].[Courses]
 (
 	[Id] INT NOT NULL PRIMARY KEY, 
-    [CourseName] NTEXT NULL, 
+    [CourseName] VARCHAR(50) NULL, 
     [UniversityID] INT NULL, 
-    [CourseNum] NTEXT NULL, 
+    [CourseNum] VARCHAR(50) NULL, 
     CONSTRAINT [FK_Courses_Universities] FOREIGN KEY ([UniversityID]) REFERENCES [Universities]([Id]) 
 )
