@@ -1,0 +1,6 @@
+ID	Name		
+1	Micah Lorenz	9.285714286	1.428571429
+2	Scott Weston	4.666666667	2.888888889
+3	Teacherman	5.25	2.5
+4	Professor Selgrad	9.25	1.75
+5	Teacherwoman	7	2

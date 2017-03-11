@@ -1,0 +1,5 @@
+ID	Name
+1	Arizona State University
+2	University of Arizona
+3	Northern Arizona University
+4	Oregon State University

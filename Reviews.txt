@@ -1,0 +1,35 @@
+ID	Course ID	Professor ID	Rating	Textbook Use	Content
+1	1	1	10	2	This man is the best professor evar!!!!
+2	1	1	10	2	Dude knows what's up.
+3	1	2	5	3	"I have never had a worse professor than this. He will not teach you anything, so you absolutely need the book."
+4	2	2	5	2	Dude suck man.
+5	3	1	9	1	He's tight
+6	3	2	2	3	He made fun of my pigtails every day and threatened to hammer throw me through a window.
+7	3	2	5	3	He hates newts.
+8	2	1	9	1	"Super good teacher, encouraged me to read Dostoyevsky"
+9	2	1	9	2	I know how to code because of this man
+10	2	2	5	3	Totally lost in his class and he didn't offer any resources for studying
+11	2	2	5	3	Hates cats. 'Nuff said
+12	3	2	5	3	Also hates puppies.
+13	3	1	9	1	This man brought his cat to class once and it was adorable. Don't take if you have allergies though.
+14	3	1	9	1	He likes puppies too.
+15	1	2	5	3	For some reason started every class by talking about Rubio's
+16	1	2	5	3	"Seriously, the guy's obsessed with Rubio's. I think he even named his son Rubio."
+17	4	3	9	2	Theaches good
+18	4	4	10	2	Awesomesauce with a side of brains
+19	5	5	7	3	Decent teacher
+20	5	5	6	1	Mediocre Professor
+21	6	4	10	1	A+++
+22	7	5	8	1	B
+23	6	3	4	2	Flunked out man
+24	6	3	3	3	three out of ten is generous for Teacherman
+25	7	3	5	3	He sucks
+26	7	4	7	2	He's pretty good
+27	8	5	7	3	She taught me everything I know.
+28	4	4	10	2	He is a diamond in the rough.
+					
+		1	9.285714286	1.428571429	
+		2	4.666666667	2.888888889	
+		3	5.25	2.5	
+		4	9.25	1.75	
+		5	7	2	

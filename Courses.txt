@@ -1,0 +1,8 @@
+ID	Course Number	Course Title	University ID
+1	CSE240	Intro to Programming Languages	1
+2	CSE120	Digital Design Fundamentals	1
+3	CSE205	Object Oriented Programming	1
+4	MAT300	Mathematical Proof Techniques	1
+5	PHY121	University Physics 1	1
+6	PHY131	University Physics 2	1
+7	MAT275	Differential Equations	1
