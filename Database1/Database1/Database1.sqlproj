@@ -63,6 +63,7 @@
     <Build Include="Universities.sql" />
     <Build Include="Reviews.sql" />
     <Build Include="Courses.sql" />
+    <Build Include="Sections.sql" />
   </ItemGroup>
   <ItemGroup>
     <RefactorLog Include="Database1.refactorlog" />

@@ -1,8 +1,8 @@
 ﻿CREATE TABLE [dbo].[Reviews]
 (
 	[Id] INT NOT NULL PRIMARY KEY, 
-    [Proffesor] INT NULL, 
+    [SectionID] INT NULL, 
     [Content] NTEXT NULL, 
-    [CourseID] NCHAR(10) NULL, 
-    [TextbookUse] INT NULL
+    [TextbookUse] INT NULL, 
+    [Rating] FLOAT NULL
 )
