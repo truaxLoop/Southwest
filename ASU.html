@@ -69,6 +69,8 @@
 
 		}
 
+
+
 	
 
 		</style>
@@ -103,7 +105,7 @@
 			<div class = "col-xs-offset-1 col-xs-10" style = "background-color:white" id = "bottomHalf">
 					
 
-					<div class = "row" style = "margin-top:10px">
+					<div class = "row" style = "margin-top:10px;margin-bottom:10px">
 						<div class="col-xs-offset-2 col-xs-8">
 					    <div class="input-group">
 					      <input type="text" class="form-control" placeholder="Enter a class..." id = "search">
@@ -114,15 +116,27 @@
 					  </div><!-- /.col-lg-6 -->
 					  </div>
 
+					   
+
+
+
 					   <div class = "row" >
-					    <hr />
+					
 						<div class="col-xs-12">
-					    	<p style = "text-align:center">Students will be able to analyze, design, construct, and debug digital combinational logic circuitry and digital finite state machine circuitry.</p>
+					   <table class="table" style = "display:none" id = "searchResults">
+							<tr><th></th></tr>
+						</table>
 					  </div><!-- /.col-lg-6 -->
 					  </div>
 					
 
 
+
+
+
+
+
+					  <div >
 
 					  <div class = "row" >
 					    <hr />
@@ -206,7 +220,7 @@
 						</div>
 				</div>
 
-
+</div>
 
 
 
@@ -220,7 +234,8 @@
 
 	var name = "null";
 	var start = true;
-	var input = "null";
+
+
 
 	function display(){
 	
@@ -235,12 +250,34 @@
 	
 	}
 
+	function clear(){
+
+		$("#searchResults").children("tr").each(function(){
+				$(this).remove();
+			
+		});
+		$("#searchResults").css("display","none");
+
+
+	}
+
 	function doSearch(){
 
 		input = $("#search").val();
-		alert(input);
 
-		//method to list possible versions in SQL using regex
+		//method to list possible versions in SQL using regex. Sample is below
+		var list = ["CSE240", "CSE210", "CSE105"];
+		$.each(list, function(key, value){
+				$("#searchResults").append("<tr><td><h5>"+value+"</h5></td></tr>")
+			
+		});
+
+		$("#searchResults").children("tr").each(function(){
+				$(this).addClass("selector");
+		});
+
+
+		$("#searchResults").css("display","inline");
 
 
 	}
@@ -250,18 +287,28 @@
 		//successfull completion of a search renders this as true 
 
 		$("#search").keypress(function(event){
-			if(event.keyCode == 13){
+			if(event.keyCode == 13 && input && last){
 							
 				doSearch();
 			
+			}else{
+				
+				clear();
 			}
 		});
+
 
 		$("#go").click(function(){
 		
 				doSearch();
 
 		});
+
+		$(".selector").click(function(){
+				    
+				    alert("hi");
+		});
+
 
 		$(".expand").click(function(){
 		    
