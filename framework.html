@@ -53,14 +53,7 @@
 		  		</div><!-- /.col-lg-6 -->
 		  </div>
 		  
-		  <!-- <div class="row" id = "centersearch" style="margin-top:100px">
-		  		<div class="col-xs-offset-3 col-xs-6">
-		    		<div class="input-group">
-		      			<span class="input-group-btn">
-		        			<button class="btn btn-default" type="button">Go!</button>
-		      			</span>
-		      			<input type="text" class="form-control" placeholder="Search for...">
-		    		</div><!-- /input-group -->
+		 
 		  		</div><!-- /.col-lg-6 -->
 		  </div> 
 
@@ -71,42 +64,24 @@
    
 	</body>
 
-	<script>
-		if(){
-			
-		}
 
-	</script>
 
 	<script>
 
     
+	alert("HI");
 
-	// $(window).on('load', function(){
-
-	// 	var $total = $("document");
-	// 	alert($total.height());
-
-	// 	function resize(){
-
-	// 		alert($total.height());
-
-	// 	}
-
-	// 	$(window).on('resize',resize_boxes());
-
-	// });
 
         $("#input").keypress(function(event){
-            if (event.keycode == 13 && $("#input").text()=="Arizona State University")
-                {
-                    window.location.replace("ASU.html");
-            }
+            if (event.keyCode == 13 && $("#input").val() == "Arizona State University"){
+                     window.location.replace("ASU.html");
+             }
+         });
         $("#Go!").click(function(){
-            if ( $("#input").text()=="Arizona State University")
-                {
+            if ($("#input").val() == "Arizona State University"){
                     window.location.replace("ASU.html");
             }
+        });
 
 
 	</script>
