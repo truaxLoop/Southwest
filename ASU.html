@@ -1,5 +1,6 @@
 
 <!DOCTYPE html>
+
 <html lang = "en">
 	<head>
 
@@ -261,33 +262,30 @@
 		
 	</body>
 
-	<script>
+<script>
 
+	//global variables
 	var name = "null";
 	var start = true;
 
+	//draw a select number of glyphicon stars for the select id
 	function drawStars(id, num){
+		
 		$("#"+id+"").children("span:lt("+num+")").each(function(){
 
-				$(this).addClass("glyphicon glyphicon-star");
+			$(this).addClass("glyphicon glyphicon-star");
 				
-
 		});
 
 		$("#"+id+"").children("span:gt("+(num-1)+")").each(function(){
 
 				$(this).addClass("glyphicon glyphicon-star-empty");
 				
-
-
 		});		
-		
-
-
-
 
 	}
 
+	//sets values of container for class tips and then fades that in slowly
 	function display(){
 	
 		$("#name").text(name);
@@ -296,11 +294,12 @@
 		$("#avScale").text("YES");
 		$("#curve").text("YES");
 
-		
+		//fade in of container with info filled from above
 		$("#minuteD").stop(true,true).fadeTo(500,1);
 	
 	}
 
+	//clear the previous search results as the user starts typing something new
 	function clear(){
 
 		$("#searchResults").children("tr").each(function(){
@@ -311,9 +310,9 @@
 		
 		$("#searchResults").css("display","none");
 
-
 	}
 
+	//search fro possible results and display them. USE SQL-TYPE DATABASE TO POPULATE LIST ARRAY
 	function doSearch(){
 
 		input = $("#search").val();
@@ -323,48 +322,52 @@
 		var count = 0;
 
 		$(".content:lt(3)").each(function(){
+
 			$(this).html(list[count]);
 			$(this).parent().parent().css("display","inline");
 			$(this).parent().parent().css("opacity","0.5");
 
-			count = count+1;
+			count = count + 1;
 
 		});
 
 	}
 
-	
+	//finished predefintions begin actual coding-IF THE DOCUMENT IS READY BEGIN PROGRAM
 	$(document).ready(function(){
-		//successfull completion of a search renders this as true 
 		
+	 //if mouse enters one of the displayed rectangles.... set opacity to 1
 	 $(".content").mouseenter(function(){
 	 
 	 	$(this).parent().parent().css("opacity","1");
 
 
 	 });
+
+	 //if mouse enters leaves of the displayed rectangles.... set opacity to 0.5
 	 $(".content").mouseleave(function(){
 	 
 	 	$(this).parent().parent().css("opacity","0.5");
 
 
 	 });
+
+	 //if displayed rectangle is clicked go to that entry
 	  $(".content").click(function(){
+
 	    //populateData
 	 	$("#veryTop").css("display","inline");
 	 	$("#veryBottom").css("display","none");
 
-
-
 	 });
-	  
+	
+	//INITIALIZE STARS
 
-		//INITIALIZE STARS
+	//Display number of stars for user...coutn WILL BE REPLACED WITH PREDETERMINED VALUES FROM EXCEL
+	var count = 1;
+	$(".expand").each(function(){
 
-		var count = 1;
-		$(".expand").each(function(){
-
-			$(this).children("td:eq(1)").each(function(){
+		$(this).children("td:eq(1)").each(function(){
 
 		    var id = $(this).attr("id");
 			drawStars(id, count);
@@ -373,55 +376,54 @@
 		});
 
 
-		});
-
-		$("#search").keypress(function(event){
-			if(event.keyCode == 13 && input){
-				doSearch();
-				//JQuery call to figure out how many stars
-			}else{
-				
-			}
-
-		});
-
-
-		$("#go").click(function(){
-		
-				doSearch();
-
-		});
-
-		$(".selector").click(function(){
-				    
-				 alert("hi");
-		
-		});
-
-
-		$(".expand").click(function(){
-		    
-		    if(start){
-
-		    	$("#overallD").css("background-image", "");
-
-				$("#minuteD").css("opacity","0");
-
-				$(this).children("td").first().each(function(){
-		   
-		 	   		name = $(this).html();
-		    		
-				});
-
-		     	display();
-
-		    }
-	   
-		});
 	});
 
+	//if user presses ENTER, display results of search
+	$("#search").keypress(function(event){
+		
+		if(event.keyCode == 13 && input){
+			
+			doSearch();
+		
+		}else{
+				
+		}
+
+	});
+
+	//if user clicks GO, display results of search
+	$("#go").click(function(){
+		
+		doSearch();
+
+	});
+
+	//if user clicks on a professor, display more detailed information below
+	$(".expand").click(function(){
+		    
+		if(start){
+
+		    $("#overallD").css("background-image", "");
+
+			$("#minuteD").css("opacity","0");
+
+			$(this).children("td").first().each(function(){
+		   
+		 	   	name = $(this).html();
+		    		
+			});
+
+		     display();
+
+		}
+	   
+	});
+	
+
+}); //end if document.ready()
+
 	    
-	</script>
+</script>
 
 	
 </html>
