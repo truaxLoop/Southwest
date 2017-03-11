@@ -310,20 +310,23 @@
 	}
 
 	//clear the previous search results as the user starts typing something new
-	function clear(){
+	function refreshCurrent(){
 
-		$("#searchResults").children("tr").each(function(){
-				
-				$(this).remove();
-			
-		});
-		
-		$("#searchResults").css("display","none");
+		 $(".content").mouseenter(function(){
+		 
+		 	$(this).parent().parent().css("opacity","1");
+
+
+		 });
 
 	}
 
 	//search fro possible results and display them. USE SQL-TYPE DATABASE TO POPULATE LIST ARRAY
 	function doSearch(){
+
+		$("#veryBottom").css("display","inline");
+		$("#veryTop").css("display","none");
+
 
 		input = $("#search").val();
 
@@ -346,89 +349,87 @@
 	//finished predefintions begin actual coding-IF THE DOCUMENT IS READY BEGIN PROGRAM
 	$(document).ready(function(){
 		
-	 //if mouse enters one of the displayed rectangles.... set opacity to 1
-	 $(".content").mouseenter(function(){
-	 
-	 	$(this).parent().parent().css("opacity","1");
+		 //if mouse enters one of the displayed rectangles.... set opacity to 1
+		 $(".content").mouseenter(function(){
+		 
+		 	$(this).parent().parent().css("opacity","1");
 
 
-	 });
+		 });
 
-	 //if mouse enters leaves of the displayed rectangles.... set opacity to 0.5
-	 $(".content").mouseleave(function(){
-	 
-	 	$(this).parent().parent().css("opacity","0.5");
-
-
-	 });
-
-	 //if displayed rectangle is clicked go to that entry
-	  $(".content").click(function(){
-
-	    //populateData
-	 	$("#veryTop").css("display","inline");
-	 	$("#veryBottom").css("display","none");
-
-	 });
-	
-	//Display number of stars for user...coutn WILL BE REPLACED WITH PREDETERMINED VALUES FROM EXCEL
-	var count = 1;
-	$(".expand").each(function(){
-
-		$(this).children("td:eq(1)").each(function(){
-
-		    var id = $(this).attr("id");
-			drawStars(id, count);
-			count = count+1;
-		    		
-		});
+		 //if mouse enters leaves of the displayed rectangles.... set opacity to 0.5
+		 $(".content").mouseleave(function(){
+		 
+		 	$(this).parent().parent().css("opacity","0.5");
 
 
-	});
+		 });
 
-	//if user presses ENTER, display results of search
-	$("#search").keypress(function(event){
+		 //if displayed rectangle is clicked go to that entry
+		  $(".content").click(function(){
+
+		    //populateData POPULATE DATATATATATATATATA!!!!!!!!!!!!!!!!!!!!!!!
+		 	$("#veryTop").css("display","inline");
+		 	$("#veryBottom").css("display","none");
+
+		 });
 		
-		if(event.keyCode == 13 && input){
-			
-			doSearch();
-		
-		}else{
-				
-		}
+		//Display number of stars for user...coutn WILL BE REPLACED WITH PREDETERMINED VALUES FROM EXCEL
+		var count = 1;
+		$(".expand").each(function(){
 
-	});
+			$(this).children("td:eq(1)").each(function(){
 
-	//if user clicks GO, display results of search
-	$("#go").click(function(){
-		
-		doSearch();
-
-	});
-
-	//if user clicks on a professor, display more detailed information below
-	$(".expand").click(function(){
-		    
-		if(start){
-
-		    $("#overallD").css("background-image", "");
-
-			$("#minuteD").css("opacity","0");
-
-			$(this).children("td").first().each(function(){
-		   
-		 	   	name = $(this).html();
-		    		
+			    var id = $(this).attr("id");
+				drawStars(id, count);
+				count = count+1;
+			    		
 			});
 
-		     display();
 
-		}
-	   
-	});
-	
+		});
 
-}); //end if document.ready()
+		//if user presses ENTER, display results of search
+		$("#search").keypress(function(event){
+			
+			if(event.keyCode == 13){
+				refreshCurrent();
+				doSearch();
+			
+			}
+
+		});ƒ
+
+		//if user clicks GO, display results of search
+		$("#go").click(function(){
+			
+			doSearch();
+
+		});
+
+		//if user clicks on a professor, display more detailed information below
+		$(".expand").click(function(){
+			    
+			if(start){
+
+			    $("#overallD").css("background-image", "");
+
+				$("#minuteD").css("opacity","0");
+
+				$(this).children("td").first().each(function(){
+			   
+			 	   	name = $(this).html();
+			    		
+				});
+
+			     display();
+
+			}
+		   
+		});
+		
+
+	}); //end if document.ready()
 
 	    
 </script>
