@@ -1,10 +1,24 @@
 <!DOCTYPE html>
 <html lang = "en">
 	<head>
+
+		<style>
+
+			.input-group{
+				border-radius:30px, 30px, 30px, 30px;
+			}
+			html{
+				height:100%;
+			}
+			body {
+				height:100%;
+				
+			}
+
+		</style>
+
 		<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale = 1, user-scalable=no">
 		 
-		<link rel="stylesheet" href="framework.css" crossorigin="anonymous">
-
 		 <!-- Latest compiled and minified CSS -->
 		<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css" integrity="sha384-BVYiiSIFeK1dGmJRAkycuHAHRg32OmUcww7on3RYdg4Va+PmSTsz/K68vbdEjh4u" crossorigin="anonymous">
 
@@ -14,10 +28,57 @@
 		<!-- Latest compiled and minified JavaScript -->
 		<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js" integrity="sha384-Tc5IQib027qvyjSMfHjOMaLkfuWVxZxUPnCJA7l2mCWNIpG9mGCD8wGNIcPD7Txa" crossorigin="anonymous"></script>
 		
+		<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.1.1/jquery.min.js"></script>
 	</head>
-	<body>
-	
-	
+	<body style = "background-color:#e5ebee">
 
+		<div class = "container-fluid">
+
+			<div class="row" id = "centersearch" style="margin-top:100px">
+		  		<div class="col-xs-offset-3 col-xs-6">
+		    		<div class="input-group">
+		      			
+		      			<input type="text" class="form-control" placeholder="Enter your zipcode...">
+		      			<span class="input-group-btn">
+		        			<button class="btn btn-default" type="button">Go!</button>
+		      			</span>
+		    		</div><!-- /input-group -->
+		  		</div><!-- /.col-lg-6 -->
+		  </div>
+		  
+		  <!-- <div class="row" id = "centersearch" style="margin-top:100px">
+		  		<div class="col-xs-offset-3 col-xs-6">
+		    		<div class="input-group">
+		      			<span class="input-group-btn">
+		        			<button class="btn btn-default" type="button">Go!</button>
+		      			</span>
+		      			<input type="text" class="form-control" placeholder="Search for...">
+		    		</div><!-- /input-group -->
+		  		</div><!-- /.col-lg-6 -->
+		  </div> -->
+
+
+
+		</div>
+	
 	</body>
+
+	<script>
+
+	// $(window).on('load', function(){
+
+	// 	var $total = $("document");
+	// 	alert($total.height());
+
+	// 	function resize(){
+
+	// 		alert($total.height());
+
+	// 	}
+
+	// 	$(window).on('resize',resize_boxes());
+
+	// });
+
+	</script>
 </html>
