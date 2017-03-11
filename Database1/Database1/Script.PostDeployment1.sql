@@ -9,7 +9,7 @@ Post-Deployment Script Template
                SELECT * FROM [$(TableName)]					
 --------------------------------------------------------------------------------------
 */
-INSERT INTO Courses values (1, 'Intro to Programming Languages', 1, 'CSE240;')
+SELECT * From Courses;
 /*
-SELECT * From Universities;
+INSERT INTO Courses values (2, 'Digital Design Fundamentals', 1, 'CSE120')
 */

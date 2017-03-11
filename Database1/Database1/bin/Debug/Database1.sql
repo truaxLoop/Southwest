@@ -302,8 +302,10 @@ Post-Deployment Script Template
                SELECT * FROM [$(TableName)]					
 --------------------------------------------------------------------------------------
 */
-INSERT INTO Universities VALUES (4, 'PSU');
-SELECT * From Universities;
+SELECT * From Courses;
+/*
+INSERT INTO Courses values (2, 'Digital Design Fundamentals', 1, 'CSE120')
+*/
 GO
 
 GO
