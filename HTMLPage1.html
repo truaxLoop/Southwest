@@ -1,0 +1,37 @@
+﻿<!DOCTYPE html>
+
+<html lang="en" xmlns="http://www.w3.org/1999/xhtml">
+<head>
+    <meta charset="utf-8" />
+    <title></title>
+</head>
+<body>
+
+</body>
+
+</html>
+
+<script>
+    var profList = [];
+    var test;
+    $test.get('Professors.txt', function (data) {
+        profList = data.split('\t');
+        alert("test1");
+    }, 'text');
+    var courseList = [];
+    $.get('Courses.txt', function (data) {
+        coursesList = data.split('\t');
+        alert("test2");
+    }, 'text');
+    var courseList = [];
+    $.get('Reviews.txt', function (data) {
+        reviewsList = data.split('\t');
+        alert("test3");
+    }, 'text');
+    var courseList = [];
+    $.get('Universities.txt', function (data) {
+        universitiesList = data.split('\t');
+        alert("test4");
+    }, 'text');
+
+</script>
