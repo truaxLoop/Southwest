@@ -323,9 +323,10 @@
 
 	//search fro possible results and display them. USE SQL-TYPE DATABASE TO POPULATE LIST ARRAY
 	function doSearch(){
-
+		$("#minuteD").css("opacity","0");
 		$("#veryBottom").css("display","inline");
 		$("#veryTop").css("display","none");
+
 
 
 		input = $("#search").val();
@@ -368,7 +369,10 @@
 		 //if displayed rectangle is clicked go to that entry
 		  $(".content").click(function(){
 
-		    //populateData POPULATE DATATATATATATATATA!!!!!!!!!!!!!!!!!!!!!!!
+		    //populateData POPULATE DATATATATATATATATA!!!!!!!!!!!!!!!!!!!
+		 	$("#minuteD").css("opacity","0");
+		 	$("#overallD").css("background-image","url(sos.png)");
+
 		 	$("#veryTop").css("display","inline");
 		 	$("#veryBottom").css("display","none");
 
@@ -398,7 +402,7 @@
 			
 			}
 
-		});ƒ
+		});
 
 		//if user clicks GO, display results of search
 		$("#go").click(function(){
