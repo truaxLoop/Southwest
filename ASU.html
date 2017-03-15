@@ -110,7 +110,7 @@
                                         <option value ="CSE120"></option>
                                         <option value ="CSE205"></option>
                                         <option value ="MAT300"></option>
-                                        <option value =PHY121"></option>
+                                        <option value ="PHY121"></option>
                                         <option value ="PHY131"></option>
                                         <option value ="MAT275"></option>
                                         </datalist>
@@ -126,13 +126,10 @@
 			    
 			    	<!--FIRST ROW DESCRIPTION OF COURSE-->
 					<div class = "row" > 	
-					  	<h1 style = "text-align:center"><u>CSE240</u></h1>
+					  	<h1 style = "text-align:center"><u id = "topOfPage"></u></h1>
 					    
-					    <hr />
 						
-							<div class="col-xs-12">
-					    		<p style = "text-align:center">Students will be able to analyze, design, construct, and debug digital combinational logic circuitry and digital finite state machine circuitry.</p>
-					  		</div><!-- /.col-lg-6 -->
+							
 					</div>
 										
 
@@ -277,6 +274,7 @@
 	//global variables
 	var name = "null";
 	var start = true;
+	var list = [];
 
 	//draw a select number of glyphicon stars for the select id
 	function drawStars(id, num){
@@ -328,22 +326,55 @@
 		$("#veryTop").css("display","none");
 
 
-
+		var holder = [];
 		input = $("#search").val();
 
+  		$.get("Courses.txt", function (data) {
+           
+            var temp = data.split('\t');
+            var i = 0;
+            var count = 4;
+            while(count < temp.length){
+            if(temp[count].indexOf(input) !== -1){
+            		
+
+	            	holder[i] = temp[count];
+	            	i = i + 1;
+
+
+
+	            }
+	          count = count +3;
+
+
+            }
+
+            list = holder;
+
+            alert(list.length);
+			var track = 0;
+
+            $(".content:lt(3)").each(function(){
+
+            	if(track < list.length){
+					
+					$(this).html(list[track]);
+					
+					$(this).parent().parent().css("display","inline");
+					
+					$(this).parent().parent().css("opacity","0.5");
+				}
+
+				track = track + 1;
+
+			});
+
+ 
+    	}, "text");
+
 		//method to list possible versions in SQL using regex. Sample is below
-		var list = ["CSE240", "CSE210", "CSE105"];
-		var count = 0;
 
-		$(".content:lt(3)").each(function(){
-
-			$(this).html(list[count]);
-			$(this).parent().parent().css("display","inline");
-			$(this).parent().parent().css("opacity","0.5");
-
-			count = count + 1;
-
-		});
+		
 
 	}
 
@@ -368,13 +399,38 @@
 
 		 //if displayed rectangle is clicked go to that entry
 		  $(".content").click(function(){
+				  
+			for(var i = 0; i < list.length; i++){
 
+				if(list[i] == $(this).text()){
+					
+
+					$("#topOfPage").html(list[i]);
+
+				}
+			
+			}
+
+			$("#veryTop").css("display","inline");
+			$("#veryBottom").css("display","none");
+			
+			$(".content:lt(3)").each(function(){
+
+										
+				$(this).parent().parent().css("display","none");
+					
+				$(this).parent().parent().css("opacity","0");
+				
+
+
+			});
+
+
+			
 		    //populateData POPULATE DATATATATATATATATA!!!!!!!!!!!!!!!!!!!
-		 	$("#minuteD").css("opacity","0");
-		 	$("#overallD").css("background-image","url(sos.png)");
 
-		 	$("#veryTop").css("display","inline");
-		 	$("#veryBottom").css("display","none");
+
+		 
 
 		 });
 		
@@ -397,7 +453,6 @@
 		$("#search").keypress(function(event){
 			
 			if(event.keyCode == 13){
-				refreshCurrent();
 				doSearch();
 			
 			}
